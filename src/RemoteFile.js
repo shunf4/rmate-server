@@ -23,9 +23,13 @@ module.exports = class RemoteFile {
         this.listeners = [];
         this.editorProcess = null;
         if (this.realPath() !== null) {
-            this.localTmpFile = path.join(LOCAL_TMP_DIR, `${this.hostname()}__${sha1(this.realPath() + Math.random().toString())}`);
+            let parts = this.realPath().split(".");
+            let extension = parts.length > 1 ? ("." + parts[parts.length - 1]) : "";
+            this.localTmpFile = path.join(LOCAL_TMP_DIR, `${this.hostname()}__${sha1(this.realPath() + Math.random().toString())}${extension}`);
         } else {
-            this.localTmpFile = path.join(LOCAL_TMP_DIR, `${this.hostname()}__${sha1(this.displayName() + Math.random().toString())}`);
+            let parts = this.displayName().split(".");
+            let extension = parts.length > 1 ? ("." + parts[parts.length - 1]) : "";
+            this.localTmpFile = path.join(LOCAL_TMP_DIR, `${this.hostname()}__${sha1(this.displayName() + Math.random().toString())}${extension}`);
         }
         this.localTmpFileListener = null;
         console.log(`local tmp file: ${this.localTmpFile}`);
